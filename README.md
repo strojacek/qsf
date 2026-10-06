@@ -1,4 +1,4 @@
-# qgeos
+# qsf
 
 GEOS geometry and GDAL file/CRS/raster functions for q, written against the standard kdb
 `k.h` C API. Runs on peachq (the `-glibc` builds, or built from source) and should run on
