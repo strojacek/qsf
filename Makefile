@@ -10,7 +10,7 @@ endif
 CFLAGS ?= -O2 -Wall -Wextra -Wno-unused-parameter
 BASE   := -std=c11 -fPIC -D_DEFAULT_SOURCE
 
-all: qgeos.so qgdal.so
+all: qgeos.so qgdal.so qsf.so
 
 qgeos.so: qgeos.c k.h
 	$(CC) $(BASE) $(CFLAGS) $(shell geos-config --cflags) $(LDSHARED) -o $@ qgeos.c $(shell geos-config --clibs)
@@ -18,11 +18,15 @@ qgeos.so: qgeos.c k.h
 qgdal.so: qgdal.c k.h
 	$(CC) $(BASE) $(CFLAGS) $(shell gdal-config --cflags) $(LDSHARED) -o $@ qgdal.c $(shell gdal-config --libs) -lm
 
+qsf.so: qsf.c k.h
+	$(CC) $(BASE) $(CFLAGS) $(shell geos-config --cflags) $(shell gdal-config --cflags) $(LDSHARED) -o $@ qsf.c $(shell geos-config --clibs) $(shell gdal-config --libs) -lm
+
 test: all
 	$(Q) test.q
 	$(Q) test_gdal.q
+	$(Q) test_sf.q
 
 clean:
-	rm -f qgeos.so qgdal.so
+	rm -f qgeos.so qgdal.so qsf.so
 
 .PHONY: all test clean
